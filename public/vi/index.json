@@ -46,7 +46,7 @@
 	"title": "Tạo IAM Role",
 	"tags": [],
 	"description": "",
-	"content": "Tạo IAM Role Trong bước này chúng ta sẽ tiến hành tạo IAM Role. Trong IAM Role này sẽ được gán policy AmazonSSMManagedInstanceCore, đây là policy cho phép máy chủ EC2 có thể giao tiếp với Session Manager.\nTruy cập vào giao diện quản trị dịch vụ IAM Ở thanh điều hướng bên trái, click Roles. Click Create role. Click AWS service và click EC2. Click Next: Permissions. Trong ô Search, điền AmazonSSMManagedInstanceCore và ấn phím Enter để tìm kiếm policy này. Click chọn policy AmazonSSMManagedInstanceCore. Click Next: Tags. Click Next: Review. Đặt tên cho Role là SSM-Role ở Role Name Click Create Role . Tiếp theo chúng ta sẽ thực hiện kết nối đến các máy chủ EC2 chúng ta đã tạo bằng Session Manager.\n"
+	"content": "Tạo IAM Role Trước tiên cần tạo IAM Policy\nTruy cập vào giao diện quản trị dịch vụ IAM\nỞ thanh điều hướng bên trái, click Policies -\u0026gt; Create policy\nChọn JSON tab và copy code ở file này vào Click roles và chọn Create role.\nClick AWS service và click Lambda. Click Next. Trong ô Search, điền AWSLambdaBasicExecutionRole và policy ta vừa tạo phía trên và ấn phím Enter để tìm kiếm policy này. Click chọn policy AWSLambdaBasicExecutionRole và policy vừa tạo Click Next Kiểm tra lại policy đã add đủ chưa và chọn Create role Tiếp theo chúng ta sẽ tạo hàm Lambda để start/stop EC2 instance\n"
 },
 {
 	"uri": "//localhost:1313/vi/3-lambdafunction/3.2-testlambdafunction/",

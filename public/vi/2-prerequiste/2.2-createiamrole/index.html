@@ -12,21 +12,21 @@
     <title>Tạo IAM Role :: AWS System Manager</title>
 
     
-    <link href="/css/nucleus.css?1709869514" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1709869514" rel="stylesheet">
-    <link href="/css/hybrid.css?1709869514" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1709869514" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1709869514" rel="stylesheet">
-    <link href="/css/auto-complete.css?1709869514" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1709869514" rel="stylesheet">
-    <link href="/css/theme.css?1709869514" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1709869514" rel="stylesheet">
+    <link href="/css/nucleus.css?1709891039" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1709891039" rel="stylesheet">
+    <link href="/css/hybrid.css?1709891039" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1709891039" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1709891039" rel="stylesheet">
+    <link href="/css/auto-complete.css?1709891039" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1709891039" rel="stylesheet">
+    <link href="/css/theme.css?1709891039" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1709891039" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1709869514" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1709891039" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1709869514"></script>
+    <script src="/js/jquery-3.3.1.min.js?1709891039"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1709869514"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1709869514"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1709891039"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1709891039"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1709869514"></script>
+<script type="text/javascript" src="/js/search.js?1709891039"></script>
 
     
   </div>
@@ -717,40 +717,41 @@
 
 
 	<h3 id="tao-iam-role">Tạo IAM Role</h3>
-<p>Trong bước này chúng ta sẽ tiến hành tạo IAM Role. Trong IAM Role này sẽ được gán policy <strong>AmazonSSMManagedInstanceCore</strong>, đây là policy cho phép máy chủ EC2 có thể giao tiếp với Session Manager.</p>
+<p>Trước tiên cần tạo IAM Policy</p>
 <ol>
-<li>Truy cập vào <a href="https://console.aws.amazon.com/iamv2/">giao diện quản trị dịch vụ IAM</a></li>
-<li>Ở thanh điều hướng bên trái, click  <strong>Roles</strong>.</li>
-</ol>
-<p><img alt="role" src="/images/2.prerequisite/038-iamrole.png"></p>
-<ol start="3">
-<li>Click <strong>Create role</strong>.</li>
+<li>
+<p>Truy cập vào <a href="https://console.aws.amazon.com/iamv2/">giao diện quản trị dịch vụ IAM</a></p>
+</li>
+<li>
+<p>Ở thanh điều hướng bên trái, click  <strong>Policies</strong> -&gt; Create policy<br>
+Chọn <strong>JSON tab</strong> và copy code ở file này vào
+<img alt="role" src="/images/2.prerequisite/038-iamrole.png"></p>
+</li>
+<li>
+<p>Click roles và chọn <strong>Create role</strong>.</p>
+</li>
 </ol>
 <p><img alt="role1" src="/images/2.prerequisite/039-iamrole.png"></p>
 <ol start="4">
-<li>Click <strong>AWS service</strong> và click <strong>EC2</strong>.</li>
+<li>Click <strong>AWS service</strong> và click <strong>Lambda</strong>.</li>
 </ol>
 <ul>
-<li>Click <strong>Next: Permissions</strong>.</li>
+<li>Click <strong>Next</strong>.</li>
 </ul>
 <p><img alt="role1" src="/images/2.prerequisite/040-iamrole.png"></p>
 <ol start="5">
-<li>Trong ô Search, điền <strong>AmazonSSMManagedInstanceCore</strong> và ấn phím Enter để tìm kiếm policy này.</li>
+<li>Trong ô Search, điền <strong>AWSLambdaBasicExecutionRole</strong> và policy ta vừa tạo phía trên và ấn phím Enter để tìm kiếm policy này.</li>
 </ol>
 <ul>
-<li>Click chọn policy <strong>AmazonSSMManagedInstanceCore</strong>.</li>
-<li>Click <strong>Next: Tags.</strong></li>
+<li>Click chọn policy <strong>AWSLambdaBasicExecutionRole</strong> và policy vừa tạo</li>
+<li>Click <strong>Next</strong>
+<img alt="createpolicy" src="/images/2.prerequisite/041-iamrole.png"></li>
 </ul>
-<p><img alt="createpolicy" src="/images/2.prerequisite/041-iamrole.png"></p>
 <ol start="6">
-<li>Click <strong>Next: Review</strong>.</li>
-<li>Đặt tên cho Role là <strong>SSM-Role</strong> ở Role Name</li>
+<li>Kiểm tra lại policy đã add đủ chưa và chọn <strong>Create role</strong></li>
 </ol>
-<ul>
-<li>Click <strong>Create Role</strong> .</li>
-</ul>
 <p><img alt="namerole" src="/images/2.prerequisite/042-iamrole.png"></p>
-<p>Tiếp theo chúng ta sẽ thực hiện kết nối đến các máy chủ EC2 chúng ta đã tạo bằng <strong>Session Manager</strong>.</p>
+<p>Tiếp theo chúng ta sẽ tạo hàm <strong>Lambda</strong> để start/stop <strong>EC2 instance</strong></p>
 
 
 
@@ -1067,19 +1068,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1709869514"></script>
-    <script src="/js/perfect-scrollbar.min.js?1709869514"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1709869514"></script>
-    <script src="/js/jquery.sticky.js?1709869514"></script>
-    <script src="/js/featherlight.min.js?1709869514"></script>
-    <script src="/js/highlight.pack.js?1709869514"></script>
+    <script src="/js/clipboard.min.js?1709891039"></script>
+    <script src="/js/perfect-scrollbar.min.js?1709891039"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1709891039"></script>
+    <script src="/js/jquery.sticky.js?1709891039"></script>
+    <script src="/js/featherlight.min.js?1709891039"></script>
+    <script src="/js/highlight.pack.js?1709891039"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1709869514"></script>
-    <script src="/js/learn.js?1709869514"></script>
-    <script src="/js/hugo-learn.js?1709869514"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1709891039"></script>
+    <script src="/js/learn.js?1709891039"></script>
+    <script src="/js/hugo-learn.js?1709891039"></script>
 
-    <link href="/mermaid/mermaid.css?1709869514" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1709869514"></script>
+    <link href="/mermaid/mermaid.css?1709891039" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1709891039"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
