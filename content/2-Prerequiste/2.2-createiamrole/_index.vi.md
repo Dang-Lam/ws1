@@ -12,7 +12,7 @@ Trước tiên cần tạo IAM Policy
 1. Truy cập vào [giao diện quản trị dịch vụ IAM](https://console.aws.amazon.com/iamv2/)
 2. Ở thanh điều hướng bên trái, click  **Policies** -> Create policy  
 Chọn **JSON tab** và copy code ở file này vào 
-![role](/images/2.prerequisite/038-iamrole.png)
+![policy](/images/2.prerequisite/038-iamrole.png)
 
 3. Click roles và chọn **Create role**.  
 
@@ -26,10 +26,10 @@ Chọn **JSON tab** và copy code ở file này vào
 5. Trong ô Search, điền **AWSLambdaBasicExecutionRole** và policy ta vừa tạo phía trên và ấn phím Enter để tìm kiếm policy này.
   + Click chọn policy **AWSLambdaBasicExecutionRole** và policy vừa tạo
   + Click **Next**
-![createpolicy](/images/2.prerequisite/041-iamrole.png)
+![policy](/images/2.prerequisite/041-iamrole.png)
 
 6. Kiểm tra lại policy đã add đủ chưa và chọn **Create role**
 
-![namerole](/images/2.prerequisite/042-iamrole.png)
+![createrole](/images/2.prerequisite/042-iamrole.png)
 
 Tiếp theo chúng ta sẽ tạo hàm **Lambda** để start/stop **EC2 instance**

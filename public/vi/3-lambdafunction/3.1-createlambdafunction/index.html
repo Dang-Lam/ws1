@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Kết nối đến máy chủ Public :: AWS System Manager</title>
+    <title>Tạo hàm Lambda :: AWS System Manager</title>
 
     
-    <link href="/css/nucleus.css?1709889751" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1709889751" rel="stylesheet">
-    <link href="/css/hybrid.css?1709889751" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1709889751" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1709889751" rel="stylesheet">
-    <link href="/css/auto-complete.css?1709889751" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1709889751" rel="stylesheet">
-    <link href="/css/theme.css?1709889751" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1709889751" rel="stylesheet">
+    <link href="/css/nucleus.css?1709893113" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1709893113" rel="stylesheet">
+    <link href="/css/hybrid.css?1709893113" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1709893113" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1709893113" rel="stylesheet">
+    <link href="/css/auto-complete.css?1709893113" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1709893113" rel="stylesheet">
+    <link href="/css/theme.css?1709893113" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1709893113" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1709889751" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1709893113" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1709889751"></script>
+    <script src="/js/jquery-3.3.1.min.js?1709893113"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1709889751"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1709889751"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1709893113"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1709893113"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1709889751"></script>
+<script type="text/javascript" src="/js/search.js?1709893113"></script>
 
     
   </div>
@@ -273,13 +273,13 @@
  
   
     
-    <li data-nav-id="/vi/3-lambdafunction/3.1-createlambdafunction/" title="Kết nối đến máy chủ Public" class="dd-item 
+    <li data-nav-id="/vi/3-lambdafunction/3.1-createlambdafunction/" title="Tạo hàm Lambda" class="dd-item 
         
         active
         
         ">
       <a href="/vi/3-lambdafunction/3.1-createlambdafunction/">
-           <b> 3.1. </b> Kết nối đến máy chủ Public
+           <b> 3.1. </b> Tạo hàm Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -301,13 +301,13 @@
  
   
     
-    <li data-nav-id="/vi/3-lambdafunction/3.2-testlambdafunction/" title="Tạo kết nối đến máy chủ EC2 Private" class="dd-item 
+    <li data-nav-id="/vi/3-lambdafunction/3.2-testlambdafunction/" title="Test hàm Lambda" class="dd-item 
         
         
         
         ">
       <a href="/vi/3-lambdafunction/3.2-testlambdafunction/">
-           <b> 3.2. </b> Tạo kết nối đến máy chủ EC2 Private
+           <b> 3.2. </b> Test hàm Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -671,7 +671,7 @@
             
           
           
-            <a href='/vi/'>Tối ưu chi phí với Lambda</a> > <a href='/vi/3-lambdafunction/'>Tạo Lambda functions để stop và start EC2 Instance</a> > Kết nối đến máy chủ Public
+            <a href='/vi/'>Tối ưu chi phí với Lambda</a> > <a href='/vi/3-lambdafunction/'>Tạo Lambda functions để stop và start EC2 Instance</a> > Tạo hàm Lambda
           
         
           
@@ -700,7 +700,7 @@
           
             <h1>
               
-              Kết nối đến máy chủ Public
+              Tạo hàm Lambda
             </h1>
           
 
@@ -708,51 +708,32 @@
 
 
 
-	<p><img alt="SSMPublicinstance" src="/images/arc-02.png"></p>
-<ol>
-<li>Truy cập vào <a href="https://console.aws.amazon.com/ec2/v2/home">giao diện quản trị của dịch vụ EC2</a>.</li>
+	<ol>
+<li>Truy cập vào <a href="https://console.aws.amazon.com/lambda/home">giao diện quản trị của dịch vụ Lambda</a>.</li>
 </ol>
 <ul>
-<li>Click chọn <strong>Public Linux Instance</strong>.</li>
-<li>Click <strong>Actions</strong>.</li>
-<li>Click <strong>Security</strong>.</li>
-<li>Click <strong>Modify IAM role</strong>.</li>
+<li>Click chọn <strong>Create function</strong>.</li>
+<li>Click <strong>Author from scratch</strong>.</li>
+<li>Điền <strong>Function name</strong>.</li>
+<li>Chọn Runtime <strong>Python 3.9</strong>.</li>
 </ul>
 <p><img alt="Connect" src="/images/3.connect/001-connect.png"></p>
 <ol start="2">
-<li>Tại trang Modify IAM role.</li>
+<li>Tiếp đó.</li>
 </ol>
 <ul>
-<li>Click chọn <strong>SSM-Role</strong>.</li>
-<li>Click <strong>Save</strong>.</li>
+<li>Click chọn <strong>Change default execution role</strong>.</li>
+<li>Click <strong>Use an existing role</strong>.</li>
+<li>Chọn role đã tạo</li>
 </ul>
-
-<div class="notices note" ><p>Bạn sẽ cần chờ khoảng 10 phút trước khi thực hiện bước tiếp theo. Thời gian này EC2 instance của chúng ta sẽ tự động đăng ký với Session Manager.</p>
-</div>
-
 <ol start="3">
-<li>Truy cập vào <a href="https://console.aws.amazon.com/systems-manager/home">giao diện quản trị của dịch vụ AWS Systems Manager</a></li>
+<li>Sau khi tạo function xong copy code python vào tab <strong>Code</strong>
+<img alt="Connect" src="/images/3.connect/002-connect.png"></li>
 </ol>
-<ul>
-<li>Kéo thanh trượt menu bên trái xuống dưới.</li>
-<li>Click <strong>Session Manager</strong>.</li>
-<li>Click <strong>Start Session</strong>.</li>
-</ul>
-<p><img alt="Connect" src="/images/3.connect/002-connect.png"></p>
-<ol start="4">
-<li>Sau đó chọn <strong>Public Linux Instance</strong> và click <strong>Start session</strong> để truy cập vào instance.</li>
-</ol>
-<p><img alt="Connect" src="/images/3.connect/003-connect.png"></p>
-<ol start="5">
-<li>Terminal sẽ xuất hiện trên trình duyệt. Kiểm tra với câu lệnh <code>sudo tcpdump -nn port 22</code> và <code>sudo tcpdump </code> chúng ta sẽ thấy không có traffic của SSH mà chỉ có traffic HTTPS.</li>
-</ol>
-<p><img alt="Connect" src="/images/3.connect/004-connect.png"></p>
 
-<div class="notices note" ><p>Ở trên, chúng ta đã tạo  kết nối vào public instance mà không cần mở cổng SSH 22, giúp cho việc bảo mật tốt hơn, tránh mọi sự tấn công tới cổng SSH.<br>
-Một nhược điểm của cách làm trên là ta phải mở Security Group outbound ở cổng 443 ra ngoài internet. Vì là public instance nên có thể sẽ không vấn đề gì nhưng nếu bạn muốn bảo mật hơn nữa, bạn có thể khoá cổng 443 ra ngoài internet mà vẫn sử dụng được Session Manager. Chúng ta sẽ đi qua cách làm này ở phần private instance dưới đây.</p>
+<div class="notices note" ><p>Lặp lại các bước trên để tạo 1 function start EC2</p>
 </div>
 
-<p>Bạn có thể terminate để kết thúc session đang kết nối trước khi qua bước tiếp theo.</p>
 
 
 
@@ -1056,7 +1037,7 @@ Một nhược điểm của cách làm trên là ta phải mở Security Group 
 			<a class="nav nav-prev" href="/vi/3-lambdafunction/" title="Tạo Lambda functions để stop và start EC2 Instance"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/3-lambdafunction/3.2-testlambdafunction/" title="Tạo kết nối đến máy chủ EC2 Private" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/3-lambdafunction/3.2-testlambdafunction/" title="Test hàm Lambda" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1066,19 +1047,19 @@ Một nhược điểm của cách làm trên là ta phải mở Security Group 
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1709889751"></script>
-    <script src="/js/perfect-scrollbar.min.js?1709889751"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1709889751"></script>
-    <script src="/js/jquery.sticky.js?1709889751"></script>
-    <script src="/js/featherlight.min.js?1709889751"></script>
-    <script src="/js/highlight.pack.js?1709889751"></script>
+    <script src="/js/clipboard.min.js?1709893113"></script>
+    <script src="/js/perfect-scrollbar.min.js?1709893113"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1709893113"></script>
+    <script src="/js/jquery.sticky.js?1709893113"></script>
+    <script src="/js/featherlight.min.js?1709893113"></script>
+    <script src="/js/highlight.pack.js?1709893113"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1709889751"></script>
-    <script src="/js/learn.js?1709889751"></script>
-    <script src="/js/hugo-learn.js?1709889751"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1709893113"></script>
+    <script src="/js/learn.js?1709893113"></script>
+    <script src="/js/hugo-learn.js?1709893113"></script>
 
-    <link href="/mermaid/mermaid.css?1709889751" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1709889751"></script>
+    <link href="/mermaid/mermaid.css?1709893113" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1709893113"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Tạo kết nối đến máy chủ EC2 Private :: AWS System Manager</title>
+    <title>Test hàm Lambda :: AWS System Manager</title>
 
     
-    <link href="/css/nucleus.css?1709889751" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1709889751" rel="stylesheet">
-    <link href="/css/hybrid.css?1709889751" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1709889751" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1709889751" rel="stylesheet">
-    <link href="/css/auto-complete.css?1709889751" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1709889751" rel="stylesheet">
-    <link href="/css/theme.css?1709889751" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1709889751" rel="stylesheet">
+    <link href="/css/nucleus.css?1709893113" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1709893113" rel="stylesheet">
+    <link href="/css/hybrid.css?1709893113" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1709893113" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1709893113" rel="stylesheet">
+    <link href="/css/auto-complete.css?1709893113" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1709893113" rel="stylesheet">
+    <link href="/css/theme.css?1709893113" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1709893113" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1709889751" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1709893113" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1709889751"></script>
+    <script src="/js/jquery-3.3.1.min.js?1709893113"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1709889751"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1709889751"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1709893113"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1709893113"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1709889751"></script>
+<script type="text/javascript" src="/js/search.js?1709893113"></script>
 
     
   </div>
@@ -273,13 +273,13 @@
  
   
     
-    <li data-nav-id="/vi/3-lambdafunction/3.1-createlambdafunction/" title="Kết nối đến máy chủ Public" class="dd-item 
+    <li data-nav-id="/vi/3-lambdafunction/3.1-createlambdafunction/" title="Tạo hàm Lambda" class="dd-item 
         
         
         
         ">
       <a href="/vi/3-lambdafunction/3.1-createlambdafunction/">
-           <b> 3.1. </b> Kết nối đến máy chủ Public
+           <b> 3.1. </b> Tạo hàm Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -301,13 +301,13 @@
  
   
     
-    <li data-nav-id="/vi/3-lambdafunction/3.2-testlambdafunction/" title="Tạo kết nối đến máy chủ EC2 Private" class="dd-item 
+    <li data-nav-id="/vi/3-lambdafunction/3.2-testlambdafunction/" title="Test hàm Lambda" class="dd-item 
         
         active
         
         ">
       <a href="/vi/3-lambdafunction/3.2-testlambdafunction/">
-           <b> 3.2. </b> Tạo kết nối đến máy chủ EC2 Private
+           <b> 3.2. </b> Test hàm Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -671,7 +671,7 @@
             
           
           
-            <a href='/vi/'>Tối ưu chi phí với Lambda</a> > <a href='/vi/3-lambdafunction/'>Tạo Lambda functions để stop và start EC2 Instance</a> > Tạo kết nối đến máy chủ EC2 Private
+            <a href='/vi/'>Tối ưu chi phí với Lambda</a> > <a href='/vi/3-lambdafunction/'>Tạo Lambda functions để stop và start EC2 Instance</a> > Test hàm Lambda
           
         
           
@@ -684,15 +684,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#nôi-dung">Nội dung:</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -708,7 +700,7 @@
           
             <h1>
               
-              Tạo kết nối đến máy chủ EC2 Private
+              Test hàm Lambda
             </h1>
           
 
@@ -716,18 +708,12 @@
 
 
 
-	<p>Đối với <strong>Windows instance</strong> nằm trong <strong>private subnet</strong>, không có <strong>public IP</strong>, không có <strong>internet gateway</strong> nên không thể đi ra ngoài <strong>internet.</strong><br>
-Với loại instance này, cách làm truyền thống là ta sẽ sử dụng kỹ thuật Bastion host tốn nhiều chi phí và công sức, nhưng ở đây chúng ta sẽ sử dụng Session Manager với loại này.<br>
-Cơ bản là <strong>private instance</strong> vẫn phải mở cổng <strong>TCP 443</strong> tới <strong>System Manager</strong>, nhưng không cho kết nối đó đi ra ngoài internet mà chỉ cho đi trong chính VPC của mình, nên đảm bảo được vấn đề bảo mật.<br>
-Để làm được điều đó, ta phải đưa endpoint của System Manager vào trong VPC, nghĩa là sử dụng <strong>VPC interface endpoint:</strong></p>
-<p><img alt="ConnectPrivate" src="/images/arc-03.png"></p>
-<p><strong>VPC interface endpoint</strong> được gắn với subnet nên cách làm này không những với <strong>private subnet</strong> mà còn có thể làm với <strong>public subnet</strong>, nghĩa là với <strong>public subnet</strong>, bạn hoàn toàn có thể không cho <strong>TCP 443</strong> đi ra ngoài internet.</p>
-<h3 id="nôi-dung">Nội dung:</h3>
-<ul>
-<li><a href="./3.2.1-enablevpcdns/">Kích hoạt DNS hostnames</a></li>
-<li><a href="./3.2.2-createvpcendpoint/">Tạo VPC Endpoint</a></li>
-<li><a href="./3.3.3-connectec2/">Kết nối Private Instance</a></li>
-</ul>
+	<p>Chọn tab T<strong>est</strong> và chạy thử → chọn <strong>Details</strong> tại mục <strong>Executing function: succeeded</strong>
+<img alt="ConnectPrivate" src="/images/arc-03.png"></p>
+
+<div class="notices note" ><p>Với trường hợp lỗi ta có thể vào xem <strong>Log output</strong> để kiểm tra cụ thể lỗi để sửa</p>
+</div>
+
 
 
 
@@ -1031,7 +1017,7 @@ Cơ bản là <strong>private instance</strong> vẫn phải mở cổng <strong
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/3-lambdafunction/3.1-createlambdafunction/" title="Kết nối đến máy chủ Public"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/vi/3-lambdafunction/3.1-createlambdafunction/" title="Tạo hàm Lambda"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="/vi/4-eventbridge/" title="Tạo rule eventBridge schedules để chạy function theo lịch" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
@@ -1044,19 +1030,19 @@ Cơ bản là <strong>private instance</strong> vẫn phải mở cổng <strong
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1709889751"></script>
-    <script src="/js/perfect-scrollbar.min.js?1709889751"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1709889751"></script>
-    <script src="/js/jquery.sticky.js?1709889751"></script>
-    <script src="/js/featherlight.min.js?1709889751"></script>
-    <script src="/js/highlight.pack.js?1709889751"></script>
+    <script src="/js/clipboard.min.js?1709893113"></script>
+    <script src="/js/perfect-scrollbar.min.js?1709893113"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1709893113"></script>
+    <script src="/js/jquery.sticky.js?1709893113"></script>
+    <script src="/js/featherlight.min.js?1709893113"></script>
+    <script src="/js/highlight.pack.js?1709893113"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1709889751"></script>
-    <script src="/js/learn.js?1709889751"></script>
-    <script src="/js/hugo-learn.js?1709889751"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1709893113"></script>
+    <script src="/js/learn.js?1709893113"></script>
+    <script src="/js/hugo-learn.js?1709893113"></script>
 
-    <link href="/mermaid/mermaid.css?1709889751" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1709889751"></script>
+    <link href="/mermaid/mermaid.css?1709893113" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1709893113"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
