@@ -10,15 +10,15 @@ pre : " <b> 2.1.1 </b> "
   + Click **Instances**.
   + Click **Launch instances**.
   
-![EC2](/images/2.prerequisite/027-createec2.png)
+![EC2](/images/2.prerequisite/001-createec2.png)
 
 2. In **Launch an instance**.
   + Fill  **Name** and choose  **Launch instance**.
   
-![EC2](/images/2.prerequisite/028-createec2.png)
+![EC2](/images/2.prerequisite/002-createec2.png)
 
 1. In **instance**.
  + Click Instance and copy **instance ID**.
 
  
-![EC2](/images/2.prerequisite/029-createec2.png)
+![EC2](/images/2.prerequisite/003-createec2.png)

@@ -12,7 +12,7 @@ pre : " <b> 3.1. </b> "
   + Điền **Function name**.
   + Chọn Runtime **Python 3.9**.
 
-![Connect](/images/3.connect/001-connect.png)
+![Connect](/images/3.connect/001-lambdafunc.png)
 
 2. Tiếp đó.
   + Click chọn **Change default execution role**.
@@ -20,7 +20,7 @@ pre : " <b> 3.1. </b> "
   + Chọn role đã tạo 
 
 3. Sau khi tạo function xong copy code python vào tab **Code**
-![Connect](/images/3.connect/002-connect.png)  
+![Connect](/images/3.connect/002-lambdafunc.png)  
 
 
 {{% notice note %}}

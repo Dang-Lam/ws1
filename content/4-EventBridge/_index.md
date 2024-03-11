@@ -10,16 +10,16 @@ pre : " <b> 4. </b> "
 1. Open EventBridge
   + Click start icon to bookmark
   
-![LambdaFunction](/images/4.s3/001-s3.png)
+![LambdaFunction](/images/4.EventBridge/001-eventbridge.png)
 
 2. Click EventBride 
   + Click **Create rule**
 
-![CreateRule](/images/4.s3/002-s3.png) 
+![CreateRule](/images/4.EventBridge/002-eventbridge.png)
 
 3. Fill name your rule, example **StopEC2Instance**
 4. In **Rule type**, Choose **Schedule**, then choose **Continue in EventBridge Scheduler**
-![RuleType](/images/4.s3/004-s3.png) 
+![RuleType](/images/4.EventBridge/004-eventbridge.png) 
 5. In **Schedule pattern,** choose **Recurring schedule**
 6. In **Schedule type,** choose schedule type, then complete the following steps:
   + In **Rate-based schedule,** a schedule that runs at regular intervals, for example every 10 minutes
@@ -27,10 +27,10 @@ pre : " <b> 4. </b> "
   {{% notice note %}}
   Cron expressions are evaluated in UTC time.
   {{% /notice %}}
-![ScheduleType](/images/4.s3/006-s3.png)
+![ScheduleType](/images/4.EventBridge/006-eventbridge.png)
 7. in **Select targets** → **All APIs** → **AWS Lambda** → **invoke**
-![Target](/images/4.s3/007-s3.png)
+![Target](/images/4.EventBridge/007-eventbridge.png)
 8. In **next** → **Create Schedule**
-![Schedule](/images/4.s3/008-s3.png)
+![Schedule](/images/4.EventBridge/008-eventbridge.png)
 9. Repeat steps 1-9 to create a rule to enable ec2instance.
   + Once you have completed these steps, your EC2 is ready to run on schedule
