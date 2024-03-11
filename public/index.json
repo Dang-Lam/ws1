@@ -1,0 +1,127 @@
+[
+{
+	"uri": "//localhost:1313/5-awscli/5.1-createrole/",
+	"title": "Create IAM Role",
+	"tags": [],
+	"description": "",
+	"content": " Create AWS IAM Policy Create file lambda_stop+start.json\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;logs:CreateLogGroup\u0026#34;, \u0026#34;logs:CreateLogStream\u0026#34;, \u0026#34;logs:PutLogEvents\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;arn:aws:logs:*:*:*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;ec2:Start*\u0026#34;, \u0026#34;ec2:Stop*\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; } ] } Run Command\n--policy-name lambda_stop+start_cli \\\r--policy-document file://lambda_stop+start.json Create IAM Role In this case, We will create a role for the Lambda service to take on. Create a trust policy that allows Lambda to take on this role.\nCreate file trust-policy.json\nTo create IAM role, Open terminal at the path containing the file and use the command create-role\naws iam create-role \\\r--role-name Lambda_start+stop_cli \\\r--assume-role-policy-document file://trust-policy.json Attach Managed Policy to an IAM role with AWS CLI\nManaged Policy has 2 type:\nAWS-managed policies - created and managed by AWS Customer-managed policies - created and managed by user To attach an AWS-managed policy AWSLambdaBasicExecutionRole in IAM role with AWS CLI, using attach-role-policy aws iam attach-role-policy \\\r--policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole \\\r--role-name Lambda_start+stop_cli Again pick up policy-arn attach to role Lambda_start+stop_cli\n```\raws iam attach-role-policy \\\r--policy-arn arn:aws:iam::339713042597:policy/lambda_stop+start_cli \\\r--role-name Lambda_start+stop_cli\r```\rCheck if the Policy is correct aws iam list-attached-role-policies \\ --role-name Lambda_start+stop_cli\r"
+},
+{
+	"uri": "//localhost:1313/3-lambdafunction/3.1-createlambdafunction/",
+	"title": "Create Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": " Go to AWS Lambda console. Click choose Create function. Click Author from scratch. Fill Function name. Click Runtime Python 3.9. Next then Click choose Change default execution role. Click Use an existing role. Select the created role After creating the function, copy the python code into the tab Code Repeat the above steps to create a function to start EC2\n"
+},
+{
+	"uri": "//localhost:1313/1-introduce/",
+	"title": "Introduction",
+	"tags": [],
+	"description": "",
+	"content": "Overview In this lab, we will initialize an EC2 instance, explore Lambda, and practice automating the stopping and starting of our EC2 instances to optimize Amazon EC2 usage based on a scheduled EventBridge.\n"
+},
+{
+	"uri": "//localhost:1313/",
+	"title": "OPTIMIZING EC2 COSTS WITH LAMBDA",
+	"tags": [],
+	"description": "",
+	"content": "OPTIMIZING EC2 COSTS WITH LAMBDA Overview In this lab, we will initialize an EC2 instance, explore Lambda, and practice automating the stopping and starting of our EC2 instances to optimize Amazon EC2 usage based on a scheduled EventBridge.\nContent Introduction Preparation Create Lambda functions that stop and start your EC2 instance Create EventBridge schedules that run your function on a schedule Using AWSCLI Clean up resources "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.1-createec2/",
+	"title": "Preparing EC2",
+	"tags": [],
+	"description": "",
+	"content": "In this step we will create 2 EC2 Linux instances. With the Lab\u0026rsquo;s simplicity, we only need to get the instance ID, so we can skip the step of creating VPC and SG\nTo learn how to create EC2 instances and VPCs with public/private subnet, you can refer to the lab article:\nIntroducing Amazon EC2 Work with Amazon VPC Content Create Linux server "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.2-createiamrole/",
+	"title": "Create IAM Role",
+	"tags": [],
+	"description": "",
+	"content": "Create IAM Role First you need to create an IAM Policy\nGo to AWS Management Console In the left navigation bar, click Policies -\u0026gt; Create policy\nClick JSON tab and copy code below: \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;,\r\u0026#34;Statement\u0026#34;: [\r{\r\u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;,\r\u0026#34;Action\u0026#34;: [\r\u0026#34;logs:CreateLogGroup\u0026#34;,\r\u0026#34;logs:CreateLogStream\u0026#34;,\r\u0026#34;logs:PutLogEvents\u0026#34;\r],\r\u0026#34;Resource\u0026#34;: \u0026#34;arn:aws:logs:*:*:*\u0026#34;\r},\r{\r\u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;,\r\u0026#34;Action\u0026#34;: [\r\u0026#34;ec2:Start*\u0026#34;,\r\u0026#34;ec2:Stop*\u0026#34;\r],\r\u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34;\r}\r]\r} Click roles and choose Create role. Click AWS service và click Lambda. Click Next. In Search, select AWSLambdaBasicExecutionRole and policy which created and Enter to pick. Click policy AWSLambdaBasicExecutionRole and policy which created Click Next Check if the policy has been added properly and choose Create role Next, we create Lambda Function to start/stop EC2 instance\n"
+},
+{
+	"uri": "//localhost:1313/5-awscli/5.2-createec2/",
+	"title": "Create Linux EC2",
+	"tags": [],
+	"description": "",
+	"content": "Giới thiệu To create the EC2 instance in the AWS CLI with the minimum recommended set of parameters, use the following commands:\naws ec2 run-instances \\\r--image-id \u0026lt;ami-id\u0026gt; \\\r--count 1 \\\r--instance-type \u0026lt;instance-type\u0026gt; \\\r--key-name \u0026lt;keypair-name\u0026gt; \\\r--security-groups \u0026lt;security-group-name\u0026gt; \\\r--subnet-id \u0026lt;subnet-id\u0026gt; \\\r--associate-public-ip-address \\\r--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=\u0026lt;name\u0026gt;}]' \\\r--block-device-mappings '[{\u0026quot;DeviceName\u0026quot;:\u0026quot;/dev/xvda\u0026quot;,\u0026quot;Ebs\u0026quot;:{\u0026quot;VolumeSize\u0026quot;:20,\u0026quot;VolumeType\u0026quot;:\u0026quot;gp2\u0026quot;}}]'\rTo create an EC2 instance, we need to do:\nSelect AMI ID: is the Image we want to use. In this case, we use the Amazon Linux 2 AMI (HVM) image with ID ami-07761f3ae34c4478d Select Instance Type: In this case, we choose t2.micro Generate Key-Pair: Create a key pair to use, which we name ec2 Create a Security Group: allow inbound traffic to SSH, HTTP or HTTPS ports. We name it my-ec2-sg Select subnet: in this case we choose the default Associate Public IP: In this lab, you don\u0026rsquo;t need to turn it on Name for instance: default Configure storage: default Launch In this lab, I only install 2 EC2 by default for the lab, so I will only need to get the instance ID information\nChọn AMI ID:\nIf you want detailed information about the AMI ID of the Amazon Linux 2 AMI image in the us-east-1 region, you can get the information when creating an instance using the interface.\nWe will use this AMI ID to create an EC2 Instance. We have the value AMI_ID\nAMI_ID=ami-07761f3ae34c4478d Select Instance Type:\nWe use t2.micro as the Instance type.\nINSTANCE_TYPE=t2.micro Create Key-Pair\n3.1. Generate a key pair to use. We name it ec2 .\naws ec2 create-key-pair \\\r--key-name ec2 \\\r--query \u0026#39;KeyMaterial\u0026#39; \\\r--output text \u0026gt; ec2.pem We will have a key-pair file named ec2.pem created in the path\n3.2. Next we need to grant permissions to the file if we want to ssh into ec2 (ignored in this lab).\nchmod 400 ec2.pem Launch\naws ec2 run-instances \\\r--image-id ami-07761f3ae34c4478d \\\r--count 2 \\\r--instance-type t2.micro \\\r--key-name ec2 \\\r--query \u0026#39;Instances[*].InstanceId\u0026#39; We will have output which is the instance ID of the 2 newly created Instances\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/",
+	"title": "Preparation ",
+	"tags": [],
+	"description": "",
+	"content": "\rYou need to create 2 EC2 instances in this lab. Along with that, you need to create an IAM Role for your Lambda function. Because the lab requirements are simple, there is no need to configure VPC and Security Group.\nContent Prepare EC2 Instance Create IAM Role "
+},
+{
+	"uri": "//localhost:1313/3-lambdafunction/3.2-testlambdafunction/",
+	"title": "Test Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": "Choose tab Test and run test → choose Details at Executing function: succeeded In case of errors, we can view Log output to check specifically for errors to fix\n"
+},
+{
+	"uri": "//localhost:1313/5-awscli/5.3-lambdafunction/",
+	"title": "Create Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": "Create file function_startec2instances.py\nimport boto3 region = \u0026#39;us-east-1\u0026#39; instances = [\u0026#39;i-0c899a57eb77e26a0\u0026#39;,\u0026#39;i-072bcd2e760962f7f\u0026#39;] ec2 = boto3.client(\u0026#39;ec2\u0026#39;, region_name=region) def lambda_handler(event, context): ec2.start_instances(InstanceIds=instances) print(\u0026#39;started your instances: \u0026#39; + str(instances)) Zip file .py to .zip\n7z a -tzip function_startec2instances.zip function_startec2instances.py Create function with the following structure:\naws lambda create-function\\\r--function-name function_startec2instances\\`Enter your function name here`\r--runtime python3.9\\`Enter the correct runtime identifier here`\r--zip-file fileb://function_startec2instances.zip\\`Enter the location of your zipped lambda function code`\r--handler function_startec2instances.lambda-handler\\`Enter the identifier for the handler function in your Python app`\r--role arn:aws:iam::745198902022:role/lambda-basic-role `Enter the role Arn you saved earlier` we have command:\naws lambda create-function \\\r--function-name function_startec2instances \\\r--zip-file fileb://function_startec2instances.zip --handler function_startec2instances.lambda_handler --runtime python3.9 \\\r--role arn:aws:iam::339713042597:role/Lambda_start+stop_cli Check the status of the instance\naws ec2 describe-instances \\\r--filters Name=instance-state-name,Values=* \\\r--query \u0026#39;Reservations[].Instances[*].{InstanceType: InstanceType, InstanceId: InstanceId, State: State.Name}\u0026#39; \\\r--profile lab --output table We have output:\n----------------------------------------------------\r| DescribeInstances |\r+----------------------+----------------+----------+\r| InstanceId | InstanceType | State |\r+----------------------+----------------+----------+\r| i-0c81fc6f81b66ad43 | t2.micro | stopped |\r| i-0c899a57eb77e26a0 | t2.micro | stopped |\r| i-072bcd2e760962f7f | t2.micro | stopped |\r| i-08fab453c4c75f370 | t2.micro | stopped |\r| i-0618ac398923f1c1f | t2.micro | stopped |\r| i-0b24b39e574d2cc5b | t2.micro | stopped |\r+----------------------+----------------+----------+ Run test function with command:\naws lambda invoke \\\r--function-name function_startec2instances out \\ --log-type Tail We have output displayed as follows:\n{\r\u0026#34;StatusCode\u0026#34;: 200,\r\u0026#34;LogResult\u0026#34;: \u0026#34;U1RBUlQgUmVxdWVzdElkOiBmODhkNDdkOS04YTlmLTRhMmMtODE0My1mYzBkZmI1NWZlOGIgVmVyc2lvbjogJExBVEVTVApzdGFydGVkIHlvdXIgaW5zdGFuY2VzOiBbJ2ktMGM4OTlhNTdlYjc3ZTI2YTAnLCAnaS0wNzJiY2QyZTc2MDk2MmY3ZiddCkVORCBSZXF1ZXN0SWQ6IGY4OGQ0N2Q5LThhOWYtNGEyYy04MTQzLWZjMGRmYjU1ZmU4YgpSRVBPUlQgUmVxdWVzdElkOiBmODhkNDdkOS04YTlmLTRhMmMtODE0My1mYzBkZmI1NWZlOGIJRHVyYXRpb246IDE3NTYuMzIgbXMJQmlsbGVkIER1cmF0aW9uOiAxNzU3IG1zCU1lbW9yeSBTaXplOiAxMjggTUIJTWF4IE1lbW9yeSBVc2VkOiA4NCBNQgkK\u0026#34;,\r\u0026#34;ExecutedVersion\u0026#34;: \u0026#34;$LATEST\u0026#34;\r} Checking the instance status again with the previous command we get output:\n----------------------------------------------------\r| DescribeInstances |\r+----------------------+----------------+----------+\r| InstanceId | InstanceType | State |\r+----------------------+----------------+----------+\r| i-0c81fc6f81b66ad43 | t2.micro | stopped |\r| i-0c899a57eb77e26a0 | t2.micro | running |\r| i-072bcd2e760962f7f | t2.micro | running |\r| i-08fab453c4c75f370 | t2.micro | stopped |\r| i-0618ac398923f1c1f | t2.micro | stopped |\r| i-0b24b39e574d2cc5b | t2.micro | stopped |\r+----------------------+----------------+----------+ 2 instances have been run successfully\n"
+},
+{
+	"uri": "//localhost:1313/3-lambdafunction/",
+	"title": "Create Lambda Function to start/stop EC2",
+	"tags": [],
+	"description": "",
+	"content": "In this step, we will create a function to start/stop the EC2 server using python\nContent 3.1. Create Lambda Function 3.2. Test Lambda Function\n"
+},
+{
+	"uri": "//localhost:1313/4-eventbridge/",
+	"title": "Create rule eventBridge schedules to run Lambda function",
+	"tags": [],
+	"description": "",
+	"content": " Open EventBridge Click start icon to bookmark Click EventBride Click Create rule Fill name your rule, example StopEC2Instance In Rule type, Choose Schedule, then choose Continue in EventBridge Scheduler In Schedule pattern, choose Recurring schedule In Schedule type, choose schedule type, then complete the following steps: In Rate-based schedule, a schedule that runs at regular intervals, for example every 10 minutes In Cron-based schedule, a schedule set using a cron expression, to run at a specific time, such as 8:00 a.m. on the first Monday of each month Cron expressions are evaluated in UTC time.\nin Select targets → All APIs → AWS Lambda → invoke In next → Create Schedule Repeat steps 1-9 to create a rule to enable ec2instance. Once you have completed these steps, your EC2 is ready to run on schedule "
+},
+{
+	"uri": "//localhost:1313/5-awscli/5.4-eventbridgeschedule/",
+	"title": "Tạo EventBridge Schedule",
+	"tags": [],
+	"description": "",
+	"content": "Create file Scheduler-Execution-Role.json\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Principal\u0026#34;: { \u0026#34;Service\u0026#34;: \u0026#34;scheduler.amazonaws.com\u0026#34; }, \u0026#34;Action\u0026#34;: \u0026#34;sts:AssumeRole\u0026#34; } ] } From the AWS Command Line interface (AWS CLI), enter the following command to create a new role.\naws iam create-role \\ --role-name SchedulerExecutionRole \\ --assume-role-policy-document file://Scheduler-Execution-Role.json If successful, we have output:\n{\r\u0026#34;Role\u0026#34;: {\r\u0026#34;Path\u0026#34;: \u0026#34;/\u0026#34;,\r\u0026#34;RoleName\u0026#34;: \u0026#34;SchedulerExecutionRole\u0026#34;,\r\u0026#34;RoleId\u0026#34;: \u0026#34;AROAU6GDZVCSVY2OKGS2M\u0026#34;,\r\u0026#34;Arn\u0026#34;: \u0026#34;arn:aws:iam::339713042597:role/SchedulerExecutionRole\u0026#34;,\r\u0026#34;CreateDate\u0026#34;: \u0026#34;2024-02-29T08:09:09+00:00\u0026#34;,\r\u0026#34;AssumeRolePolicyDocument\u0026#34;: {\r\u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;,\r\u0026#34;Statement\u0026#34;: [\r{\r\u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;,\r\u0026#34;Principal\u0026#34;: {\r\u0026#34;Service\u0026#34;: \u0026#34;scheduler.amazonaws.com\u0026#34;\r},\r\u0026#34;Action\u0026#34;: \u0026#34;sts:AssumeRole\u0026#34;\r}\r]\r}\r}\r} Create file PermissionPolicy.json with the following content\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;lambda:InvokeFunction\u0026#34; ], \u0026#34;Resource\u0026#34;: [ \u0026#34;arn:aws:lambda:us-east-1:339713042597:function:function_startec2instances:*\u0026#34;, \u0026#34;arn:aws:lambda:us-east-1:339713042597:function:function_startec2instances\u0026#34; ] } ] } Run the following command to create a new policy:\naws iam create-policy \\ --policy-name lambda_function_startEC2Inc \\ --policy-document file://PermissionPolicy.json We have output:\n{ \u0026#34;Policy\u0026#34;: { \u0026#34;PolicyName\u0026#34;: \u0026#34;lambda_function_startEC2Inc\u0026#34;, \u0026#34;PolicyId\u0026#34;: \u0026#34;ANPAU6GDZVCS46LWRELGH\u0026#34;, \u0026#34;Arn\u0026#34;: \u0026#34;arn:aws:iam::339713042597:policy/lambda_function_startEC2Inc\u0026#34;, \u0026#34;Path\u0026#34;: \u0026#34;/\u0026#34;, \u0026#34;DefaultVersionId\u0026#34;: \u0026#34;v1\u0026#34;, \u0026#34;AttachmentCount\u0026#34;: 0, \u0026#34;PermissionsBoundaryUsageCount\u0026#34;: 0, \u0026#34;IsAttachable\u0026#34;: true, \u0026#34;CreateDate\u0026#34;: \u0026#34;2024-02-29T08:22:38+00:00\u0026#34;, \u0026#34;UpdateDate\u0026#34;: \u0026#34;2024-02-29T08:22:38+00:00\u0026#34; } } Run the following command to assign the policy to your role.\naws iam attach-role-policy \\ --policy-arn arn:aws:iam::339713042597:policy/lambda_function_startEC2Inc \\ --role-name SchedulerExecutionRole Create eventbridge schedule with the following command:\naws scheduler create-schedule \\ --name StopEC2Instances_CLI \\ --schedule-expression \u0026#39;rate(5 minutes)\u0026#39; \\ --target \u0026#39;{\u0026#34;RoleArn\u0026#34;: \u0026#34;arn:aws:iam::339713042597:role/SchedulerExecutionRole\u0026#34;, \u0026#34;Arn\u0026#34;: \u0026#34;arn:aws:lambda:us-east-1:339713042597:function:function_startec2instances\u0026#34;}\u0026#39; \\ --flexible-time-window \u0026#39;{ \u0026#34;Mode\u0026#34;: \u0026#34;OFF\u0026#34;}\u0026#39; RoleArn is the arn address of Role SchedulerExecutionRole, Arn is the arn address of function function_startec2instances\nWhen completed, it will return output:\n{ \u0026#34;ScheduleArn\u0026#34;: \u0026#34;arn:aws:scheduler:us-east-1:339713042597:schedule/default/StopEC2Instances_CLI\u0026#34; } With schedule stop we also do the same as above\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.1-createec2/2.1.1-createec2linux/",
+	"title": "Create Linux EC2",
+	"tags": [],
+	"description": "",
+	"content": " Go to EC2 service management console Click Instances. Click Launch instances. In Launch an instance. Fill Name and choose Launch instance. In instance. Click Instance and copy instance ID. "
+},
+{
+	"uri": "//localhost:1313/5-awscli/",
+	"title": "Introduce AMS CLI",
+	"tags": [],
+	"description": "",
+	"content": "Introduce By using the AWS CLI, we can deploy more quickly and securely than using the GUI. In this article we will create all the steps using AWS CLI\nContent Create Role Create EC2 Create Lambda function to start/stop EC2 Instances Create rule eventBridge schedules to run function "
+},
+{
+	"uri": "//localhost:1313/6-cleanup/",
+	"title": "Clean up resources",
+	"tags": [],
+	"description": "",
+	"content": "We\u0026rsquo;ll take the following steps to delete the resources we created in this exercise.\nDelete CloudFront Go to AWS CloudFront console. Click Distributions. Click Delete and choose delete again Delete Lambda Function Go to AWS Lambda console Click chọn các Functions ta đã tạo Click Actions -\u0026gt; Delete -\u0026gt; Nhập delete và chọn Delete Delete Role Delete AWS IAM console Click roles, delete which role created In Policies, filter by Type Customer managed and delete which policy created Delete EC2 Instance Go to AWS EC2 console Click Instances. Choose instances. Click Instance state. Click Terminate instance, then click Terminate to confirm. "
+},
+{
+	"uri": "//localhost:1313/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

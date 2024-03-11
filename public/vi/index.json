@@ -1,0 +1,127 @@
+[
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/2.1-createec2/",
+	"title": "Chuẩn bị EC2 Instance",
+	"tags": [],
+	"description": "",
+	"content": "Trong bước này chúng ta sẽ tạo 2 EC2 instance Linux. Với mức độ đơn giản của Lab chỉ cần để lấy ID instance nên chúng ta có thể bỏ qua bước tạo VPC, SG\nĐể tìm hiểu cách tạo các EC2 instance và VPC với public/private subnet các bạn có thể tham khảo bài lab :\nGiới thiệu về Amazon EC2 Làm việc với Amazon VPC Nội dung Tạo máy chủ Linux "
+},
+{
+	"uri": "//localhost:1313/vi/1-introduce/",
+	"title": "Giới thiệu",
+	"tags": [],
+	"description": "",
+	"content": "Giới thiệu Trong bài lab này, chúng ta sẽ khởi tạo EC2, tìm hiểu về Lambda và thực hành tự động dừng và khởi động các phiên bản EC2 của mình để giảm mức sử dụng Amazon EC2 theo lịch bằng EventBridge\n"
+},
+{
+	"uri": "//localhost:1313/vi/3-lambdafunction/3.1-createlambdafunction/",
+	"title": "Tạo hàm Lambda",
+	"tags": [],
+	"description": "",
+	"content": " Truy cập vào giao diện quản trị của dịch vụ Lambda. Click chọn Create function. Click Author from scratch. Điền Function name. Chọn Runtime Python 3.9. Tiếp đó. Click chọn Change default execution role. Click Use an existing role. Chọn role đã tạo Sau khi tạo function xong copy code python vào tab Code Lặp lại các bước trên để tạo 1 function start EC2\n"
+},
+{
+	"uri": "//localhost:1313/vi/5-awscli/5.1-createrole/",
+	"title": "Tạo IAM Role",
+	"tags": [],
+	"description": "",
+	"content": " Tạo AWS IAM Policy Tạo file lambda_stop+start.json\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;logs:CreateLogGroup\u0026#34;, \u0026#34;logs:CreateLogStream\u0026#34;, \u0026#34;logs:PutLogEvents\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;arn:aws:logs:*:*:*\u0026#34; }, { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;ec2:Start*\u0026#34;, \u0026#34;ec2:Stop*\u0026#34; ], \u0026#34;Resource\u0026#34;: \u0026#34;*\u0026#34; } ] } Chạy câu lệnh\n--policy-name lambda_stop+start_cli \\\r--policy-document file://lambda_stop+start.json Tạo IAM Role Trong case này, chúng ta sẽ tạo một role để dịch vụ Lambda đảm nhận. Tạo một trust policy cho phép Lambda đảm nhận role này. Tạo file trust-policy.json Để tạo một IAM role, mở terminal tại đường dẫn chứa file và sử sụng câu lệnh create-role aws iam create-role --role-name Lambda_start+stop_cli --assume-role-policy-document file://trust-policy.json\nGán Managed Policy tới một IAM role với AWS CLI\nManaged Policy có 2 loại:\nAWS-managed policies - được tạo và quản lý bởi AWS Customer-managed policies - được tạo và quản lý bởi user Để attach một AWS-managed policy AWSLambdaBasicExecutionRole vào IAM role với AWS CLI, sử dụng attach-role-policy aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole --role-name Lambda_start+stop_cli Tương tự lấy policy-arn mà mình vừa tạo ở trên để gán vào role Lambda_start+stop_cli\naws iam attach-role-policy --policy-arn arn:aws:iam::339713042597:policy/lambda_stop+start_cli --role-name Lambda_start+stop_cli\nKiểm tra lại Policy đã chính xác chưa aws iam list-attached-role-policies --role-name Lambda_start+stop_cli "
+},
+{
+	"uri": "//localhost:1313/vi/",
+	"title": "Tối ưu chi phí với Lambda",
+	"tags": [],
+	"description": "",
+	"content": "Tối ưu chi phí với Lambda Tổng quan Trong bài lab này, chúng ta sẽ khởi tạo EC2, tìm hiểu về Lambda và thực hành tự động dừng và khởi động các phiên bản EC2 của mình để giảm mức sử dụng Amazon EC2 theo lịch bằng EventBridge\nNội dung Giới thiệu Các bước chuẩn bị Tạo Lambda function để start/stop EC2 Instances Tạo rule eventBridge schedules để chạy function theo lịch Mở rộng với AWS CLI Dọn dẹp tài nguyên "
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/",
+	"title": "Các bước chuẩn bị",
+	"tags": [],
+	"description": "",
+	"content": "\rBạn cần tạo 2 EC2 instance trong bài lab này. Cùng với đó cần tạo IAM Role cho hàm Lambda của bạn . Vì yêu cầu lab đơn giản, không cần cấu hình VPC và Security Group.\nNội dung Chuẩn bị EC2 Instance Tạo IAM Role "
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/2.2-createiamrole/",
+	"title": "Tạo IAM Role",
+	"tags": [],
+	"description": "",
+	"content": "Tạo IAM Role Trước tiên cần tạo IAM Policy\nTruy cập vào giao diện quản trị dịch vụ IAM\nỞ thanh điều hướng bên trái, click Policies -\u0026gt; Create policy\nChọn JSON tab và copy code ở file này vào Click roles và chọn Create role.\nClick AWS service và click Lambda. Click Next. Trong ô Search, điền AWSLambdaBasicExecutionRole và policy ta vừa tạo phía trên và ấn phím Enter để tìm kiếm policy này. Click chọn policy AWSLambdaBasicExecutionRole và policy vừa tạo Click Next Kiểm tra lại policy đã add đủ chưa và chọn Create role Tiếp theo chúng ta sẽ tạo hàm Lambda để start/stop EC2 instance\n"
+},
+{
+	"uri": "//localhost:1313/vi/5-awscli/5.2-createec2/",
+	"title": "Tạo Linux EC2",
+	"tags": [],
+	"description": "",
+	"content": "Giới thiệu Cấu trúc để tạo một EC2 Instance sử dụng AWS CLI như sau:\naws ec2 run-instances \\\r--image-id \u0026lt;ami-id\u0026gt; \\\r--count 1 \\\r--instance-type \u0026lt;instance-type\u0026gt; \\\r--key-name \u0026lt;keypair-name\u0026gt; \\\r--security-groups \u0026lt;security-group-name\u0026gt; \\\r--subnet-id \u0026lt;subnet-id\u0026gt; \\\r--associate-public-ip-address \\\r--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=\u0026lt;name\u0026gt;}]' \\\r--block-device-mappings '[{\u0026quot;DeviceName\u0026quot;:\u0026quot;/dev/xvda\u0026quot;,\u0026quot;Ebs\u0026quot;:{\u0026quot;VolumeSize\u0026quot;:20,\u0026quot;VolumeType\u0026quot;:\u0026quot;gp2\u0026quot;}}]'\rĐể tạo một EC2 instance, chúng ta cần làm:\nChọn AMI ID: là một Image chúng ta muốn sử dụng. Trong case này, chúng ta sử dụng image Amazon Linux 2 AMI (HVM) có ID là ami-07761f3ae34c4478d Chọn Instance Type: Trong case này, ta chọn t2.micro Tạo Key-Pair: Tạo một cặp khóa để sử dụng, chúng ta đặt tên là ec2 Tạo một Security Group: cho phép inbound traffic đến port SSH, HTTP hay HTTPS. Ta đặt tên là my-ec2-sg Chọn subnet: trong trường hợp này ta chọn mặc định Associate Public IP: trong bài lab này không cần bật cũng được Name cho instance: ta để theo mặc định Cấu hình storage: ta đặt theo mặc định Khởi chạy Trong lab này mình chỉ cài 2 EC2 theo mặc định để lab nên sẽ chỉ cần lấy thông tin instance ID\nChọn AMI ID:\nMuốn có thông tin chi tiết AMI ID của image Amazon Linux 2 AMI trong region us-east-1, ta có thể lấy thông tin khi tạo instance bằng giao diện\nTa sẽ sử dụng AMI ID này để tạo EC2 Instance. Ta có giá trị AMI_ID\nAMI_ID=ami-07761f3ae34c4478d Chọn Instance Type:\nTa sử dụng t2.micro là kiểu Instance.\nINSTANCE_TYPE=t2.micro Tạo Key-Pair\n3.1. Tạo một cặp khóa để sử dụng. Ta đặt tên là ec2 .\naws ec2 create-key-pair \\\r--key-name ec2 \\\r--query \u0026#39;KeyMaterial\u0026#39; \\\r--output text \u0026gt; ec2.pem Ta sẽ có file key-pair tên là ec2.pem được tạo trong đường dẫn\n3.2. Tiếp theo ta cần cấp quyền cho file nếu muốn ssh vào ec2 (trong bài lab này bỏ qua)\nchmod 400 ec2.pem Khởi chạy\naws ec2 run-instances \\\r--image-id ami-07761f3ae34c4478d \\\r--count 2 \\\r--instance-type t2.micro \\\r--key-name ec2 \\\r--query \u0026#39;Instances[*].InstanceId\u0026#39; Chúng ta sẽ có output là instance ID của 2 Instance vừa tạo\n"
+},
+{
+	"uri": "//localhost:1313/vi/3-lambdafunction/3.2-testlambdafunction/",
+	"title": "Test hàm Lambda",
+	"tags": [],
+	"description": "",
+	"content": "Chọn tab Test và chạy thử → chọn Details tại mục Executing function: succeeded Với trường hợp lỗi ta có thể vào xem Log output để kiểm tra cụ thể lỗi để sửa\n"
+},
+{
+	"uri": "//localhost:1313/vi/5-awscli/5.3-lambdafunction/",
+	"title": "Tạo Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": "Tạo file function_startec2instances.py\nimport boto3 region = \u0026#39;us-east-1\u0026#39; instances = [\u0026#39;i-0c899a57eb77e26a0\u0026#39;,\u0026#39;i-072bcd2e760962f7f\u0026#39;] ec2 = boto3.client(\u0026#39;ec2\u0026#39;, region_name=region) def lambda_handler(event, context): ec2.start_instances(InstanceIds=instances) print(\u0026#39;started your instances: \u0026#39; + str(instances)) Nén file .py thành đuôi .zip\n7z a -tzip function_startec2instances.zip function_startec2instances.py Tạo function với cấu trúc sau:\naws lambda create-function\\\r--function-name function_startec2instances\\`Enter your function name here`\r--runtime python3.9\\`Enter the correct runtime identifier here`\r--zip-file fileb://function_startec2instances.zip\\`Enter the location of your zipped lambda function code`\r--handler function_startec2instances.lambda-handler\\`Enter the identifier for the handler function in your Python app`\r--role arn:aws:iam::745198902022:role/lambda-basic-role `Enter the role Arn you saved earlier` Ta có câu lệnh sau:\naws lambda create-function \\\r--function-name function_startec2instances \\\r--zip-file fileb://function_startec2instances.zip --handler function_startec2instances.lambda_handler --runtime python3.9 \\\r--role arn:aws:iam::339713042597:role/Lambda_start+stop_cli Kiểm tra trạng thái của instance\naws ec2 describe-instances \\\r--filters Name=instance-state-name,Values=* \\\r--query \u0026#39;Reservations[].Instances[*].{InstanceType: InstanceType, InstanceId: InstanceId, State: State.Name}\u0026#39; \\\r--profile lab --output table Ta có output:\n----------------------------------------------------\r| DescribeInstances |\r+----------------------+----------------+----------+\r| InstanceId | InstanceType | State |\r+----------------------+----------------+----------+\r| i-0c81fc6f81b66ad43 | t2.micro | stopped |\r| i-0c899a57eb77e26a0 | t2.micro | stopped |\r| i-072bcd2e760962f7f | t2.micro | stopped |\r| i-08fab453c4c75f370 | t2.micro | stopped |\r| i-0618ac398923f1c1f | t2.micro | stopped |\r| i-0b24b39e574d2cc5b | t2.micro | stopped |\r+----------------------+----------------+----------+ Chạy test function với câu lệnh:\naws lambda invoke \\\r--function-name function_startec2instances out \\ --log-type Tail Ta có output hiển thị như sau:\n{\r\u0026#34;StatusCode\u0026#34;: 200,\r\u0026#34;LogResult\u0026#34;: \u0026#34;U1RBUlQgUmVxdWVzdElkOiBmODhkNDdkOS04YTlmLTRhMmMtODE0My1mYzBkZmI1NWZlOGIgVmVyc2lvbjogJExBVEVTVApzdGFydGVkIHlvdXIgaW5zdGFuY2VzOiBbJ2ktMGM4OTlhNTdlYjc3ZTI2YTAnLCAnaS0wNzJiY2QyZTc2MDk2MmY3ZiddCkVORCBSZXF1ZXN0SWQ6IGY4OGQ0N2Q5LThhOWYtNGEyYy04MTQzLWZjMGRmYjU1ZmU4YgpSRVBPUlQgUmVxdWVzdElkOiBmODhkNDdkOS04YTlmLTRhMmMtODE0My1mYzBkZmI1NWZlOGIJRHVyYXRpb246IDE3NTYuMzIgbXMJQmlsbGVkIER1cmF0aW9uOiAxNzU3IG1zCU1lbW9yeSBTaXplOiAxMjggTUIJTWF4IE1lbW9yeSBVc2VkOiA4NCBNQgkK\u0026#34;,\r\u0026#34;ExecutedVersion\u0026#34;: \u0026#34;$LATEST\u0026#34;\r} Kiểm tra lại trạng thái instance bằng câu lệnh lúc nãy ta có output:\n----------------------------------------------------\r| DescribeInstances |\r+----------------------+----------------+----------+\r| InstanceId | InstanceType | State |\r+----------------------+----------------+----------+\r| i-0c81fc6f81b66ad43 | t2.micro | stopped |\r| i-0c899a57eb77e26a0 | t2.micro | running |\r| i-072bcd2e760962f7f | t2.micro | running |\r| i-08fab453c4c75f370 | t2.micro | stopped |\r| i-0618ac398923f1c1f | t2.micro | stopped |\r| i-0b24b39e574d2cc5b | t2.micro | stopped |\r+----------------------+----------------+----------+ 2 instance đã được running thành công\n"
+},
+{
+	"uri": "//localhost:1313/vi/3-lambdafunction/",
+	"title": "Tạo Lambda functions để stop và start EC2 Instance",
+	"tags": [],
+	"description": "",
+	"content": "Trong bước này, chúng ta sẽ thực hiện tạo function để start/stop máy chủ EC2 bằng python\nNội dung 3.1. Tạo hàm Lambda 3.2. Test Lambda Function\n"
+},
+{
+	"uri": "//localhost:1313/vi/5-awscli/5.4-eventbridgeschedule/",
+	"title": "Tạo EventBridge Schedule",
+	"tags": [],
+	"description": "",
+	"content": "Tạo file Scheduler-Execution-Role.json với nội dung\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Principal\u0026#34;: { \u0026#34;Service\u0026#34;: \u0026#34;scheduler.amazonaws.com\u0026#34; }, \u0026#34;Action\u0026#34;: \u0026#34;sts:AssumeRole\u0026#34; } ] } Từ AWS Command Line interface (AWS CLI), điền câu lệnh sau để tạo new role mới.\naws iam create-role \\ --role-name SchedulerExecutionRole \\ --assume-role-policy-document file://Scheduler-Execution-Role.json Nếu thành công ta có output:\n{\r\u0026#34;Role\u0026#34;: {\r\u0026#34;Path\u0026#34;: \u0026#34;/\u0026#34;,\r\u0026#34;RoleName\u0026#34;: \u0026#34;SchedulerExecutionRole\u0026#34;,\r\u0026#34;RoleId\u0026#34;: \u0026#34;AROAU6GDZVCSVY2OKGS2M\u0026#34;,\r\u0026#34;Arn\u0026#34;: \u0026#34;arn:aws:iam::339713042597:role/SchedulerExecutionRole\u0026#34;,\r\u0026#34;CreateDate\u0026#34;: \u0026#34;2024-02-29T08:09:09+00:00\u0026#34;,\r\u0026#34;AssumeRolePolicyDocument\u0026#34;: {\r\u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;,\r\u0026#34;Statement\u0026#34;: [\r{\r\u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;,\r\u0026#34;Principal\u0026#34;: {\r\u0026#34;Service\u0026#34;: \u0026#34;scheduler.amazonaws.com\u0026#34;\r},\r\u0026#34;Action\u0026#34;: \u0026#34;sts:AssumeRole\u0026#34;\r}\r]\r}\r}\r} Tạo file PermissionPolicy.json với nội dung sau\n{ \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Action\u0026#34;: [ \u0026#34;lambda:InvokeFunction\u0026#34; ], \u0026#34;Resource\u0026#34;: [ \u0026#34;arn:aws:lambda:us-east-1:339713042597:function:function_startec2instances:*\u0026#34;, \u0026#34;arn:aws:lambda:us-east-1:339713042597:function:function_startec2instances\u0026#34; ] } ] } Chạy câu lệnh sau để tạo một policy mới:\naws iam create-policy \\ --policy-name lambda_function_startEC2Inc \\ --policy-document file://PermissionPolicy.json Ta có output:\n{ \u0026#34;Policy\u0026#34;: { \u0026#34;PolicyName\u0026#34;: \u0026#34;lambda_function_startEC2Inc\u0026#34;, \u0026#34;PolicyId\u0026#34;: \u0026#34;ANPAU6GDZVCS46LWRELGH\u0026#34;, \u0026#34;Arn\u0026#34;: \u0026#34;arn:aws:iam::339713042597:policy/lambda_function_startEC2Inc\u0026#34;, \u0026#34;Path\u0026#34;: \u0026#34;/\u0026#34;, \u0026#34;DefaultVersionId\u0026#34;: \u0026#34;v1\u0026#34;, \u0026#34;AttachmentCount\u0026#34;: 0, \u0026#34;PermissionsBoundaryUsageCount\u0026#34;: 0, \u0026#34;IsAttachable\u0026#34;: true, \u0026#34;CreateDate\u0026#34;: \u0026#34;2024-02-29T08:22:38+00:00\u0026#34;, \u0026#34;UpdateDate\u0026#34;: \u0026#34;2024-02-29T08:22:38+00:00\u0026#34; } } Chạy câu lệnh sau để gán policy vào role của bạn.\naws iam attach-role-policy \\ --policy-arn arn:aws:iam::339713042597:policy/lambda_function_startEC2Inc \\ --role-name SchedulerExecutionRole Tạo eventbridge schedule theo câu lệnh sau:\naws scheduler create-schedule \\ --name StopEC2Instances_CLI \\ --schedule-expression \u0026#39;rate(5 minutes)\u0026#39; \\ --target \u0026#39;{\u0026#34;RoleArn\u0026#34;: \u0026#34;arn:aws:iam::339713042597:role/SchedulerExecutionRole\u0026#34;, \u0026#34;Arn\u0026#34;: \u0026#34;arn:aws:lambda:us-east-1:339713042597:function:function_startec2instances\u0026#34;}\u0026#39; \\ --flexible-time-window \u0026#39;{ \u0026#34;Mode\u0026#34;: \u0026#34;OFF\u0026#34;}\u0026#39; RoleArn là địa chỉ arn của Role SchedulerExecutionRole, Arn là địa chỉ arn của function function_startec2instances\nKhi hoàn thành sẽ trả output:\n{ \u0026#34;ScheduleArn\u0026#34;: \u0026#34;arn:aws:scheduler:us-east-1:339713042597:schedule/default/StopEC2Instances_CLI\u0026#34; } Với schedule stop ta cũng làm tương tự như trên\n"
+},
+{
+	"uri": "//localhost:1313/vi/4-eventbridge/",
+	"title": "Tạo rule eventBridge schedules để chạy function theo lịch",
+	"tags": [],
+	"description": "",
+	"content": " Mở EventBridge Hãy click biểu tượng sao để được bookmark cho tiện sử dụng nhé Chọn EventBride Click Create rule Điền tên cho rule của bạn, ví dụ như StopEC2Instance Với Rule type, chọn Schedule, sau đó chọn Continue in EventBridge Scheduler Với Schedule pattern, chọn Recurring schedule Với Schedule type, chọn một schedule type, sau đó hoàn thành các bước sau: Với Rate-based schedule, một lịch trình chạy theo chu kỳ đều đặn, ví dụ mỗi 10 phút Với Cron-based schedule, một lịch trình được đặt bằng biểu thức cron, chạy vào một thời điểm cụ thể, chẳng hạn như 8:00 sáng vào thứ 2 đầu tiên của mỗi tháng Cron expressions được đánh giá theo giờ UTC. Nhớ chọn Time zone theo múi giờ +7\nPhần Select targets → All APIs → AWS Lambda → invoke Chọn next → Create Schedule Lặp lại các bước từ 1-9 để tạo rule bật ec2instance. Khi hoàn thành xong các bước này thì EC2 của bạn đã sẵn sàng để chạy theo lịch "
+},
+{
+	"uri": "//localhost:1313/vi/5-awscli/",
+	"title": "Mở rộng với AWS CLI",
+	"tags": [],
+	"description": "",
+	"content": "Giới thiệu Với việc sử dụng AWS CLI, chúng ta có thể triển khai một cách nhanh chóng và an toàn hơn so với việc sử dụng GUI. Trong bài này chúng ta sẽ tạo tất cả các bước bằng AWS CLI nhé\nNội dung Tạo Role Tạo EC2 Tạo Lambda function để start/stop EC2 Instances Tạo rule eventBridge schedules để chạy function theo lịch "
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/2.1-createec2/2.1.1-createec2linux/",
+	"title": "Tạo Linux EC2",
+	"tags": [],
+	"description": "",
+	"content": " Truy cập giao diện quản trị dịch vụ EC2 Chọn Instances. Chọn Launch instances. Tại trang Launch an instance. Điền Name để chọn Launch instance. Tại trang instance. Chọn Instance và copy instance ID. "
+},
+{
+	"uri": "//localhost:1313/vi/6-cleanup/",
+	"title": "Dọn dẹp tài nguyên",
+	"tags": [],
+	"description": "",
+	"content": "Chúng ta sẽ tiến hành các bước sau để xóa các tài nguyên chúng ta đã tạo trong bài thực hành này.\nXóa CloudFront Truy cập giao diện quản trị dịch vụ CloudFront. Click chọn Distributions đã tạo. Click Delete và chọn 1 lần nữa để xóa Xóa Lambda Function Truy cập giao diện quản trị dịch vụ Lambda Click chọn các Functions ta đã tạo Click Actions -\u0026gt; Delete -\u0026gt; Nhập delete và chọn Delete Xóa Role Truy cập giao diện quản trị dịch vụ IAM Click chọn roles, delete những role ta đã tạo Tương tự, trong Policies, ta filter by Type bằng Customer managed và xóa những policy đã tạo Xóa EC2 Instance Truy cập giao diện quản trị dịch vụ EC2 Click Instances. Chọn instances đã tạo. Click Instance state. Click Terminate instance, sau đó click Terminate để xác nhận. "
+},
+{
+	"uri": "//localhost:1313/vi/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/vi/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
