@@ -8,32 +8,52 @@ pre : " <b> 2.2 </b> "
 
 ### Create IAM Role
 
-In this step, we will proceed to create IAM Role. In this IAM Role, the policy **AmazonSSMManagedInstanceCore** will be assigned, this is the policy that allows the EC2 server to communicate with the Session Manager.
+First you need to create an IAM Policy
+1. Go to [AWS Management Console](https://console.aws.amazon.com/iamv2/)
+2. In the left navigation bar, click  **Policies** -> Create policy  
+Click **JSON tab** and copy code below: 
+  ```{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Start*",
+        "ec2:Stop*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
 
-1. Go to [IAM service administration interface](https://console.aws.amazon.com/iamv2/)
-2. In the left navigation bar, click **Roles**.
+![policy](/images/2.prerequisite/038-iamrole.png)
 
-![role](/images/2.prerequisite/038-iamrole.png)
-
-3. Click **Create role**.
+3. Click roles and choose **Create role**.  
 
 ![role1](/images/2.prerequisite/039-iamrole.png)
 
-4. Click **AWS service** and click **EC2**.
-  + Click **Next: Permissions**.
+4. Click **AWS service** và click **Lambda**. 
+  + Click **Next**.  
 
-![role1](/images/2.prerequisite/40-iamrole.png)
+![role1](/images/2.prerequisite/040-iamrole.png)
 
-5. In the Search box, enter **AmazonSSMManagedInstanceCore** and press Enter to search for this policy.
-  + Click the policy **AmazonSSMManagedInstanceCore**.
-  + Click **Next: Tags.**
+5. In Search, select  **AWSLambdaBasicExecutionRole** and  policy which created and Enter to pick.
+  + Click  policy **AWSLambdaBasicExecutionRole** and policy which created
+  + Click **Next**
+![policy](/images/2.prerequisite/041-iamrole.png)
 
-![createpolicy](/images/2.prerequisite/041-iamrole.png)
+1. Check if the policy has been added properly and choose **Create role**
 
-6. Click **Next: Review**.
-7. Name the Role **SSM-Role** in Role Name
-  + Click **Create Role** \.
+![createrole](/images/2.prerequisite/042-iamrole.png)
 
-![namerole](/images/2.prerequisite/042-iamrole.png)
-
-Next, we will make the connection to the EC2 servers we created with **Session Manager**.
+Next, we create **Lambda Function** to start/stop **EC2 instance**

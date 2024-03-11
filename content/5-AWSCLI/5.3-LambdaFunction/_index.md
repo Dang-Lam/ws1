@@ -1,12 +1,12 @@
 ---
-title : "Tạo Lambda Function"
+title : "Create Lambda Function"
 date :  "`r Sys.Date()`" 
 weight : 3 
 chapter : false
 pre : " <b> 5.3 </b> "
 ---
 
-Tạo file **function_startec2instances.py** 
+Create file **function_startec2instances.py** 
 
 ```python
 import boto3
@@ -20,13 +20,13 @@ def lambda_handler(event, context):
 
 ```
 
-Nén file .py thành đuôi .zip
+Zip file .py to .zip
 
 ```
 7z a -tzip function_startec2instances.zip function_startec2instances.py
 ```
 
-Tạo function với cấu trúc sau:
+Create function with the following structure:
 
 ```
 aws lambda create-function\
@@ -37,7 +37,7 @@ aws lambda create-function\
     --role arn:aws:iam::745198902022:role/lambda-basic-role `Enter the role Arn you saved earlier`
 
 ```
-Ta có câu lệnh sau:
+we have command:
 ```
 aws lambda create-function \
     --function-name function_startec2instances \
@@ -45,7 +45,7 @@ aws lambda create-function \
     --role arn:aws:iam::339713042597:role/Lambda_start+stop_cli
 ```
 
-Kiểm tra trạng thái của instance
+Check the status of the instance
 
 ```
 aws ec2 describe-instances \
@@ -54,7 +54,7 @@ aws ec2 describe-instances \
     --profile lab --output table
 ```
 
-Ta có output:
+We have output:
 
 ```
 ----------------------------------------------------
@@ -71,7 +71,7 @@ Ta có output:
 +----------------------+----------------+----------+
 ```
 
-Chạy test function với câu lệnh:
+Run test function with command:
 
 ```
 aws lambda invoke \
@@ -79,7 +79,7 @@ aws lambda invoke \
     --log-type Tail
 ```
 
-Ta có output hiển thị như sau:
+We have output displayed as follows:
 
 ```
 {
@@ -90,7 +90,7 @@ Ta có output hiển thị như sau:
 
 ```
 
-Kiểm tra lại trạng thái instance bằng câu lệnh lúc nãy ta có output:
+Checking the instance status again with the previous command we get output:
 
 ```
 ----------------------------------------------------
@@ -107,4 +107,4 @@ Kiểm tra lại trạng thái instance bằng câu lệnh lúc nãy ta có outp
 +----------------------+----------------+----------+
 ```
 
-2 instance đã được running thành công
+2 instances have been run successfully

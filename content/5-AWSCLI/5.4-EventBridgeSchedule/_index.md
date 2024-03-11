@@ -6,7 +6,7 @@ chapter : false
 pre : " <b> 5.4 </b> "
 ---
 
-Tạo file **Scheduler-Execution-Role.json** với nội dung
+Create file **Scheduler-Execution-Role.json** 
 
 ```json
 {
@@ -23,7 +23,7 @@ Tạo file **Scheduler-Execution-Role.json** với nội dung
 }
 ```
 
-Từ AWS Command Line interface (AWS CLI), điền câu lệnh sau để tạo new role mới. 
+From the AWS Command Line interface (AWS CLI), enter the following command to create a new role. 
 
 ```bash
 aws iam create-role \
@@ -31,7 +31,7 @@ aws iam create-role \
     --assume-role-policy-document file://Scheduler-Execution-Role.json
 ```
 
-Nếu thành công ta có output:
+If successful, we have output:
 
 ```
 {
@@ -58,7 +58,7 @@ Nếu thành công ta có output:
 
 ```
 
-Tạo file `PermissionPolicy.json` với nội dung sau
+Create file `PermissionPolicy.json` with the following content
 
 ```json
 {
@@ -78,7 +78,7 @@ Tạo file `PermissionPolicy.json` với nội dung sau
 }
 ```
 
-Chạy câu lệnh sau để tạo một policy mới:
+Run the following command to create a new policy:
 
 ```bash
  aws iam create-policy \
@@ -86,7 +86,7 @@ Chạy câu lệnh sau để tạo một policy mới:
     --policy-document file://PermissionPolicy.json
 ```
 
-Ta có output:
+We have output:
 
 ```json
 {
@@ -106,7 +106,7 @@ Ta có output:
 
 ```
 
-Chạy câu lệnh sau để gán policy vào role của bạn. 
+Run the following command to assign the policy to your role.
 
 ```bash
 aws iam attach-role-policy \
@@ -114,7 +114,7 @@ aws iam attach-role-policy \
     --role-name SchedulerExecutionRole
 ```
 
-Tạo eventbridge schedule theo câu lệnh sau:
+Create eventbridge schedule with the following command:
 
 ```bash
 aws scheduler create-schedule \
@@ -126,10 +126,10 @@ aws scheduler create-schedule \
 
 
 {{% notice info %}}
- RoleArn là địa chỉ arn của Role **SchedulerExecutionRole**, Arn là địa chỉ arn của function **function_startec2instances**
+ RoleArn is the arn address of Role **SchedulerExecutionRole**, Arn is the arn address of function **function_startec2instances**
 {{% /notice %}}
 
-Khi hoàn thành sẽ trả output:
+When completed, it will return output:
 
 ```json
 {
@@ -138,4 +138,4 @@ Khi hoàn thành sẽ trả output:
 
 ```
 
-Với schedule stop ta cũng làm tương tự như trên
+With schedule stop we also do the same as above

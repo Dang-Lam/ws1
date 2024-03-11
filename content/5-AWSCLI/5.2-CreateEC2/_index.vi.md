@@ -1,7 +1,7 @@
 ---
 title : "Tạo Linux EC2"
 date :  "`r Sys.Date()`" 
-weight : 5 
+weight : 2 
 chapter : false
 pre : " <b> 5.2 </b> "
 ---
@@ -44,9 +44,9 @@ Trong lab này mình chỉ cài 2 EC2 theo mặc định để lab nên sẽ ch�
 
     Muốn có thông tin chi tiết AMI ID của image Amazon Linux 2 AMI trong region us-east-1, ta có thể lấy thông tin khi tạo instance bằng giao diện
 
-![AMIID](/images/5.fwd/005-fwd.png)
+    ![AMIID](/images/5.fwd/005-fwd.png)
 
-Ta sẽ sử dụng AMI ID này để tạo EC2 Instance. Ta có giá trị AMI_ID
+    Ta sẽ sử dụng AMI ID này để tạo EC2 Instance. Ta có giá trị AMI_ID
 
     ```
     AMI_ID=ami-07761f3ae34c4478d
@@ -54,7 +54,7 @@ Ta sẽ sử dụng AMI ID này để tạo EC2 Instance. Ta có giá trị AMI_
 
 2. Chọn Instance Type:
 
-Ta sử dụng `t2.micro` là kiểu Instance. 
+    Ta sử dụng `t2.micro` là kiểu Instance. 
 
     ```
         INSTANCE_TYPE=t2.micro
@@ -62,7 +62,7 @@ Ta sử dụng `t2.micro` là kiểu Instance.
 
 3. Tạo Key-Pair
 
-4. Tạo một cặp khóa để sử dụng. Ta đặt tên là `ec2` .
+    3.1. Tạo một cặp khóa để sử dụng. Ta đặt tên là `ec2` .
     
     ```
     aws ec2 create-key-pair \
@@ -73,14 +73,14 @@ Ta sử dụng `t2.micro` là kiểu Instance.
     
     Ta sẽ có file key-pair tên là `ec2.pem` được tạo trong đường dẫn 
     
-5. Tiếp theo ta cần cấp quyền cho file nếu muốn ssh vào ec2 (trong bài lab này bỏ qua)
+   3.2. Tiếp theo ta cần cấp quyền cho file nếu muốn ssh vào ec2 (trong bài lab này bỏ qua)
     
     ```
     chmod 400 ec2.pem
     ```
     
 
-6. Khởi chạy
+4. Khởi chạy
 
     ```
     aws ec2 run-instances \
@@ -92,14 +92,4 @@ Ta sử dụng `t2.micro` là kiểu Instance.
     ```
 
     Chúng ta sẽ có output là instance ID của 2 Instance vừa tạo
-
-    ```
-    [
-        "i-0c899a57eb77e26a0",
-        "i-072bcd2e760962f7f"
-    ]
-
-    ```
-
-
 

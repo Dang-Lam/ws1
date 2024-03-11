@@ -5,7 +5,7 @@ weight : 2
 chapter : false
 pre : " <b> 3.2. </b> "
 ---
-Chọn tab T**est** và chạy thử → chọn **Details** tại mục **Executing function: succeeded**
+Chọn tab **Test** và chạy thử → chọn **Details** tại mục **Executing function: succeeded**
 ![ConnectPrivate](/images/arc-03.png) 
 
 {{% notice note %}}

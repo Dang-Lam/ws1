@@ -1,19 +1,20 @@
 ---
-title : "Preparing VPC and EC2"
+title : "Preparing EC2"
 date : "`r Sys.Date()`"
 weight : 1
 chapter : false
 pre : " <b> 2.1 </b> "
 ---
 
-In this step, we will need to create a VPC with 2 public / private subnets. Then create 1 EC2 Instance Linux located in the public subnet, 1 EC2 Instance Windows located in the private subnet.
+In this step we will create 2 EC2 Linux instances. With the Lab's simplicity, we only need to get the instance ID, so we can skip the step of creating VPC and SG
 
-The architecture overview after you complete this step will be as follows:
+To learn how to create EC2 instances and VPCs with public/private subnet, you can refer to the lab article:
+  - [Introducing Amazon EC2](https://000004.awsstudygroup.com/vi/)
+  - [Work with Amazon VPC](https://000003.awsstudygroup.com/vi/) 
 
-![VPC](/images/arc-01.png)
 
-To learn how to create EC2 instances and VPCs with public/private subnets, you can refer to the lab:
-  - [About Amazon EC2](https://000004.awsstudygroup.com/en/)
-  - [Works with Amazon VPC](https://000003.awsstudygroup.com/en/)
+### Content
+  - [Create Linux server](2.1.1-createec2linux/)
+
 
 
