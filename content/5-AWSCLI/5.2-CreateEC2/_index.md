@@ -6,7 +6,7 @@ chapter : false
 pre : " <b> 5.2 </b> "
 ---
 
-### Giới thiệu 
+### Introduce 
 
 To create the EC2 instance in the AWS CLI with the minimum recommended set of parameters, use the following commands:
 
