@@ -7,17 +7,30 @@ pre : " <b> 4. </b> "
 ---
 
 
-Với Session Manager chúng ta có thể xem được lịch sử các kết nối tới các instance thông qua **Session history**. Tuy nhiên chúng ta chưa xem được chi tiết các câu lệnh được sử dụng.
+1. Mở EventBridge
+  + Hãy click biểu tượng sao để được bookmark cho tiện sử dụng nhé
+  
+![LambdaFunction](/images/4.s3/001-s3.png)
 
-![S3](/images/4.s3/001-s3.png)
+2. Chọn EventBride 
+  + Click **Create rule**
 
-Trong phần này chúng ta sẽ tiến hành tạo S3 bucket và thực hiện cấu hình lưu trữ các session logs để xem được chi tiết các câu lệnh được sử dụng trong session.
+![CreateRule](/images/4.s3/002-s3.png) 
 
-![port-fwd](/images/arc-log.png) 
-
-### Nội dung:
-
-  - [Cập nhật IAM Role](./4.1-updateiamrole/)
-  - [Tạo **S3 Bucket**](./4.2-creates3bucket/)
-  - [Tạo S3 Gateway endpoint](./4.3-creategwes3)
-  - [Cấu hình **Session logs**](./4.4-configsessionlogs/)
+3. Điền tên cho rule của bạn, ví dụ như **StopEC2Instance**
+4. Với **Rule type**, chọn **Schedule**, sau đó chọn **Continue in EventBridge Scheduler**
+![RuleType](/images/4.s3/004-s3.png) 
+5. Với **Schedule pattern,** chọn **Recurring schedule**
+6. Với **Schedule type,** chọn một schedule type, sau đó hoàn thành các bước sau:
+  + Với **Rate-based schedule,** một lịch trình chạy theo chu kỳ đều đặn, ví dụ mỗi 10 phút
+  + Với **Cron-based schedule,** một lịch trình được đặt bằng biểu thức cron, chạy vào một thời điểm cụ thể, chẳng hạn như 8:00 sáng vào thứ 2 đầu tiên của mỗi tháng
+  {{% notice note %}}
+  Cron expressions được đánh giá theo giờ UTC. Nhớ chọn Time zone theo múi giờ +7
+  {{% /notice %}}
+![ScheduleType](/images/4.s3/006-s3.png)
+7. Phần **Select targets** → **All APIs** → **AWS Lambda** → **invoke**
+![Target](/images/4.s3/007-s3.png)
+8. Chọn **next** → **Create Schedule**
+![Schedule](/images/4.s3/008-s3.png)
+9.  Lặp lại các bước từ 1-9 để tạo rule bật ec2instance.     
+  + Khi hoàn thành xong các bước này thì EC2 của bạn đã sẵn sàng để chạy theo lịch
