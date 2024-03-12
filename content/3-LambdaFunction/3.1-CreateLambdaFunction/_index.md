@@ -11,7 +11,7 @@ pre : " <b> 3.1. </b> "
   + Fill **Function name**.
   + Click Runtime **Python 3.9**.
 
-![Connect](/images/3.connect/001-connect.png)
+![Connect](/images/3.connect/001-lambdafunc.png)
 
 2. Next then
   + Click choose **Change default execution role**.
@@ -19,7 +19,7 @@ pre : " <b> 3.1. </b> "
   + Select the created role
 
 3. After creating the function, copy the python code into the tab **Code**
-![Connect](/images/3.connect/002-connect.png)  
+![Connect](/images/3.connect/002-lambdafunc.png)  
 
 
 {{% notice note %}}
